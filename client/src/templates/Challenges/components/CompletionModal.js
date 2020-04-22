@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import { createSelector } from 'reselect';
 import { Button, Modal } from '@freecodecamp/react-bootstrap';
 import { useStaticQuery, graphql } from 'gatsby';
-
 import Login from '../../../components/Header/components/Login';
 import CompletionModalBody from './CompletionModalBody';
 import { dasherize } from '../../../../../utils/slugs';
@@ -192,6 +191,10 @@ export class CompletionModalInner extends Component {
     if (isOpen) {
       executeGA({ type: 'modal', data: '/completion-modal' });
     }
+    var completed = false;
+    if (completedPercent === 100) {
+      completed = true;
+    }
     const dashedName = dasherize(title);
     return (
       <Modal
@@ -214,6 +217,12 @@ export class CompletionModalInner extends Component {
             blockName={blockName}
             completedPercent={completedPercent}
           />
+          {completed ? (
+            <div>
+              Congratulations! You have completed all of the {blockName}. You
+              can now go to the Settings page to claim your certificate
+            </div>
+          ) : null}
         </Modal.Body>
         <Modal.Footer>
           {isSignedIn ? null : (
